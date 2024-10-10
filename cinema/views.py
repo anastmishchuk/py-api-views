@@ -4,12 +4,7 @@ from rest_framework.views import APIView
 
 from django.shortcuts import get_object_or_404
 
-from cinema.models import (
-    Actor,
-    Genre,
-    CinemaHall,
-    Movie
-)
+from cinema.models import Actor, Genre, CinemaHall, Movie
 from cinema.serializers import (
     ActorSerializer,
     GenreSerializer,
@@ -34,6 +29,7 @@ class GenreList(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -51,7 +47,8 @@ class GenreDetail(APIView):
         serializer = GenreSerializer(genre, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, pk):
